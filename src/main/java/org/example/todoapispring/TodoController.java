@@ -21,7 +21,6 @@ public class TodoController {
 
     @GetMapping("/todos")
     public List<Todo> getTodos() {
-        System.out.println("heh");
         return todoList;
     }
 
