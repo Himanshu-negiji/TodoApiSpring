@@ -27,6 +27,7 @@ public class TodoController {
     @PostMapping("/todos")
     public Todo createTodo(@RequestBody Todo newTodo) {
         todoList.add(newTodo);
+        System.out.println("Logger");
         return newTodo;
     }
 }
