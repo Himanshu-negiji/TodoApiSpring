@@ -1,5 +1,7 @@
 package org.example.todoapispring;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +14,18 @@ import java.util.List;
 @RequestMapping("/api/v1/todos/")
 public class TodoController {
 
+//    @Autowired # Field injection is not recommend in the spring as after that we can't  change the value of object.
+//    @Qualifier("fakeTodoService")
     public static List<Todo> todoList;
 
-    public TodoController() {
+    public TodoService todoService; // Composition - when we keep instance of another class in another class as class property.
+
+    public TodoService todoService2;
+
+    public TodoController(@Qualifier("fakeTodoService") TodoService todoService,
+                         @Qualifier("anotherTodoService") TodoService todoService2) {
+        this.todoService = todoService; // CONTRUCTOR  BASED DEPENNDENCY INJDECTION.
+        this.todoService2 = todoService2;
         todoList = new ArrayList<>();
         todoList.add(new Todo(1, "Todos1", false, 1));
         todoList.add(new Todo(2, "Todos2", true, 2));
@@ -24,6 +35,7 @@ public class TodoController {
 
     @GetMapping()
     public List<Todo> getTodos() {
+        System.out.println(todoService.doSomething());
         return todoList;
     }
 
